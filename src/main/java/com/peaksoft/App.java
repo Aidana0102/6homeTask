@@ -41,27 +41,6 @@ public class App {
 //        Olkolor.addInfAboutOlko(5, "OPopo", 12);
 //        Olkolor.addInfAboutOlko(6, "JIJIL", 15);
 
-        Olkolor.getOlko();
-        String zapros1 = "SELECT * FROM olko";
-        try (Connection conn = connection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(zapros1)) {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name ");
-                String kol = rs.getString("Kancha_shaar_bar");
-                System.out.println(id + "  " + name + "   " + kol);
-            }
-
-            connection().close();
-
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-
-        }
-
-
         ShBashchylar dataBase3 = new ShBashchylar();
         dataBase3.connection();
 
