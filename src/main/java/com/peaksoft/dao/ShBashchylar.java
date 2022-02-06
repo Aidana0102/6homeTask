@@ -1,4 +1,4 @@
-package com.peaksoft;
+package com.peaksoft.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,14 +7,32 @@ public class ShBashchylar {
     private final static String url = "jdbc:postgresql://localhost:5432/6task";
     private final static String user = "postgres";
     private final static String password = "1234";
-    private static String name;
-    private static  int id;
+    private  String name;
+    private   int id;
 
-    public ShBashchylar(int i, String name) {
+    public ShBashchylar(String name, int id) {
+        this.name = name;
+        this.id = id;
     }
 
     public ShBashchylar() {
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public static Connection connection() {
@@ -44,27 +62,31 @@ public class ShBashchylar {
         }
     }
 
-    public static void getBashchy() {
+    public static ArrayList<ShBashchylar> getBashchy() {
+        int id;
+        String name;
+
+        ArrayList<ShBashchylar> bashchylars = new ArrayList<>();
         String zapros1 = "SELECT * FROM bashchy";
         try (Connection conn = connection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(zapros1)) {
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(zapros1);
             while (rs.next()) {
-                id =rs.getInt("id") ;
-                name=rs.getString("name ");
-                ShBashchylar bash=new ShBashchylar(id,name);
-                ArrayList<ShBashchylar> shaarlars=new ArrayList<>();
-                shaarlars.add(bash);
-                System.out.println(id+"  "+name);
-
+                id = rs.getInt("id_b");
+                name = rs.getString("name_b");
+                ShBashchylar bash = new ShBashchylar(name, id);
+                bashchylars.add(bash);
             }
+            connection().close();
 
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return bashchylars;
+    }
+
+
 
     }
 
 
-}

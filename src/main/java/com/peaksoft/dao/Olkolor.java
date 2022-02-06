@@ -9,11 +9,14 @@ public class Olkolor {
         private final static String user = "postgres";
         private final static String password = "1234";
 
-        private static int id;
-        private static String name;
-        private static int kol;
+        private  int id;
+        private  String name;
+        private  int kol;
 
-    public Olkolor(int i, String name, int kol) {
+    public Olkolor(int id, String name, int kol) {
+        this.id = id;
+        this.name = name;
+        this.kol = kol;
     }
 
     public Olkolor() {
@@ -47,24 +50,23 @@ public class Olkolor {
             }
         }
 
-    public static List<Olkolor> getOlko() {
+    public static ArrayList<Olkolor> getOlko() {
+        int id;
+        String name;
+        int kol;
         String zapros1 = "SELECT * FROM olko";
         ArrayList<Olkolor>olkolors=new ArrayList<>();
         try (Connection conn = connection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(zapros1)) {
+             Statement stmt = conn.createStatement()){
+             ResultSet rs = stmt.executeQuery(zapros1);
             while (rs.next()) {
-                id=rs.getInt("id") ;
-                name =rs.getString("name ") ;
-                kol= rs.getInt("Kancha_shaar_bar");
+                id=rs.getInt("id_o") ;
+                name =rs.getString("name_o") ;
+                kol= rs.getInt("sh_sany");
                 Olkolor olk=new Olkolor(id,name,kol);
-
                 olkolors.add(olk);
-                //        System.out.println(id+"  "+name+"   "+kol);
             }
-
             connection().close();
-
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -72,15 +74,15 @@ public class Olkolor {
         }
 return  olkolors;
     }
-    public static int getId() {
+    public  int getId() {
         return id;
     }
 
-    public static String getName() {
+    public  String getName() {
         return name;
     }
 
-    public static int getKol() {
+    public  int getKol() {
         return kol;
     }
 }
